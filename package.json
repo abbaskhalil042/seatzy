@@ -1,0 +1,26 @@
+{
+  "name": "seatzy",
+  "version": "1.0.0",
+  "description": "A platform where you can book your tickest for cinema",
+  "main": "server.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.ts"
+  },
+  "keywords": [],
+  "author": "Abbas Khalil",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
+    "dotevn": "^0.0.1-security",
+    "express": "^5.2.1",
+    "http-status-codes": "^2.3.0",
+    "mysql2": "^3.20.0",
+    "sequelize": "^6.37.8",
+    "sequelize-cli": "^6.6.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2",
+    "winston": "^3.19.0"
+  }
+}
