@@ -23,8 +23,18 @@ Airplane.init(
     modelNumber: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isAlphanumeric: true,
+      },
     },
-    capacity: DataTypes.INTEGER,
+    capacity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: {
+        max: 1000,
+      },
+    },
   },
   {
     sequelize,

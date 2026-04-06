@@ -6,6 +6,14 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 });
 
 export const logger = createLogger({
-  format: combine(label({ label: "right meow!" }), timestamp(), myFormat),
-  transports: [new transports.Console()],
+  format: combine(
+    timestamp({
+      format: "YYYY-MM-DD HH:mm:ss",
+    }),
+    myFormat
+  ),
+  transports: [
+    new transports.Console(),
+    new transports.File({ filename: "logs/app.log" }),
+  ],
 });
