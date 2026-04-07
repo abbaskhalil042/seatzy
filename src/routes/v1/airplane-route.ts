@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { createAirplaneController } from "../../controllers/index.js";
+import {
+  createAirplaneController,
+  getAirplaneController,
+  getAllAirplaneController,
+} from "../../controllers/index.js";
 import { AirplaneMiddleware } from "../../middlewares/index.js";
 
 const airplaneRoutes = Router();
@@ -7,7 +11,9 @@ const airplaneRoutes = Router();
 /*
 /api/v1/airplane
 */
-console.log("vi route");
+
 airplaneRoutes.post("/", AirplaneMiddleware, createAirplaneController);
+airplaneRoutes.get("/", AirplaneMiddleware, getAllAirplaneController);
+airplaneRoutes.get("/:id", AirplaneMiddleware, getAirplaneController);
 
 export default airplaneRoutes;

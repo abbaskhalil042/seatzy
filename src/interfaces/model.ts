@@ -1,4 +1,8 @@
 export interface IAirplane {
   modelNumber: string;
-  capacity:number;
+  capacity: number;
+}
+
+export interface Icity {
+  name: string;
 }

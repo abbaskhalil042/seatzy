@@ -38,7 +38,7 @@ Airplane.init(
   },
   {
     sequelize,
-    modelName: "Aeroplane",
+    modelName: "Airplanes",
   }
 );
 

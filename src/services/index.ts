@@ -1,2 +1,7 @@
-import createAirplane from "./airplane-service.js";
-export { createAirplane };
+import {
+  createAirplane,
+  getAirplane,
+  getAirplanes,
+} from "./airplane-service.js";
+
+export { createAirplane, getAirplane, getAirplanes };
