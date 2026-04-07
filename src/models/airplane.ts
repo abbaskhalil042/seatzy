@@ -4,11 +4,6 @@ import type { IAirplane } from "../interfaces/model.js";
 import sequelize from "./index.js";
 
 class Airplane extends Model<IAirplane> {
-  /**
-   * Helper method for defining associations.
-   * This method is not a part of Sequelize lifecycle.
-   * The `models/index` file will call this method automatically.
-   */
   static associate(models: any) {
     // define association here
   }

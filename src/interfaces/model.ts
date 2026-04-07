@@ -6,3 +6,10 @@ export interface IAirplane {
 export interface Icity {
   name: string;
 }
+
+export interface Iairport {
+  name: string;
+  code: string;
+  address: string;
+  cityId: number;
+}

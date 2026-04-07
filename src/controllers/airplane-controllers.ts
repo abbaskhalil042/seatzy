@@ -7,8 +7,10 @@ import { ErrorResponse, SuccesResponse } from "../utils/common/index.js";
 import AppError from "../utils/error/app-error.js";
 import {
   createAirplane,
+  deletingAirplane,
   getAirplane,
   getAirplanes,
+  updateAirplane,
 } from "../services/index.js";
 
 export async function createAirplaneController(req: Request, res: Response) {
@@ -59,6 +61,47 @@ export async function getAirplaneController(req: Request, res: Response) {
 export async function getAllAirplaneController(req: Request, res: Response) {
   try {
     const airplane = await getAirplanes();
+    SuccesResponse.message = "Successfully got all airplane";
+    SuccesResponse.data = airplane;
+    return res.status(StatusCodes.OK).json(SuccesResponse);
+  } catch (error: unknown) {
+    if (error instanceof AppError) {
+      ErrorResponse.error = error;
+
+      return res.status(error.statusCode).json(ErrorResponse);
+    }
+    if (error instanceof Error) {
+      ErrorResponse.error = error;
+
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+    }
+  }
+}
+
+// airplane controller for updating airplane
+export async function updateAirplaneController(req: Request, res: Response) {
+  try {
+    const airplane = await updateAirplane(req.params.id, req.body);
+    SuccesResponse.message = "Successfully got all airplane";
+    SuccesResponse.data = airplane;
+    return res.status(StatusCodes.OK).json(SuccesResponse);
+  } catch (error: unknown) {
+    if (error instanceof AppError) {
+      ErrorResponse.error = error;
+
+      return res.status(error.statusCode).json(ErrorResponse);
+    }
+    if (error instanceof Error) {
+      ErrorResponse.error = error;
+
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+    }
+  }
+}
+
+export async function deleteAirplanController(req: Request, res: Response) {
+  try {
+    const airplane = await deletingAirplane(req.params.id);
     SuccesResponse.message = "Successfully got all airplane";
     SuccesResponse.data = airplane;
     return res.status(StatusCodes.OK).json(SuccesResponse);
