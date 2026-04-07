@@ -15,5 +15,6 @@ app.use("/api", apiRoutes);
 app.listen(serverConfig.PORT,async () => {
   console.log("server is running");
 
+  
 
 });

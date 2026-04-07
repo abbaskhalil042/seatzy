@@ -12,4 +12,5 @@ export interface Iairport {
   code: string;
   address: string;
   cityId: number;
+  
 }
