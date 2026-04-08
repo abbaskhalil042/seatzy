@@ -12,5 +12,16 @@ export interface Iairport {
   code: string;
   address: string;
   cityId: number;
-  
+}
+
+export interface Iflights {
+  flightNumber: string;
+  airplaneId: number;
+  departureAirportId: number;
+  arrivalAirportId: number;
+  departureTime: number;
+  arrivalTime: number;
+  price: number;
+  boardingGate: string;
+  totalSeats: number;
 }

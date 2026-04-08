@@ -6,6 +6,10 @@ import sequelize from "./index.js";
 class Airplane extends Model<IAirplane> {
   static associate(models: any) {
     // define association here
+    this.hasMany(models.Flight, {
+      foreignKey: "airplaneId",
+      onDelete: "CASCADE",
+    });
   }
 }
 
