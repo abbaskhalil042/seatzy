@@ -15,9 +15,9 @@ const airplaneRoutes = Router();
 */
 
 airplaneRoutes.post("/", AirplaneMiddleware, createAirplaneController);
-airplaneRoutes.get("/", AirplaneMiddleware, getAllAirplaneController);
-airplaneRoutes.get("/:id", AirplaneMiddleware, getAirplaneController);
-airplaneRoutes.get("/:id", AirplaneMiddleware, updateAirplaneController);
-airplaneRoutes.get("/:id", AirplaneMiddleware, deleteAirplanController);
+airplaneRoutes.get("/", getAllAirplaneController);
+airplaneRoutes.get("/:id", getAirplaneController);
+airplaneRoutes.patch("/:id", updateAirplaneController);
+airplaneRoutes.delete("/:id", deleteAirplanController);
 
 export default airplaneRoutes;

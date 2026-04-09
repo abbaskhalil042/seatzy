@@ -1,26 +1,34 @@
+
 import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-
+import {
+    createAirport,
+    deleteAirport,
+    getAirport,
+    getAirports,
+    updateAirport,
+} from "../services/index.js";
 import { ErrorResponse, SuccesResponse } from "../utils/common/index.js";
 import AppError from "../utils/error/app-error.js";
-import {
-  createCity,
-  deleteCity,
-  getCities,
-  getCity,
-  updateCity,
-} from "../services/index.js";
 
-//create city controller
-export async function createCityController(req: Request, res: Response) {
+// export interface Iairport {
+//     name: string;
+//     code: string;
+//     address: string;
+//     cityId: number;
+//   }
+
+// create airport controller
+export async function createAirportController(req: Request, res: Response) {
   try {
-    const { name } = req.body;
-
-    const city = await createCity({
-      name,
+    const airplane = await createAirport({
+      name: req.body.name,
+      code: req.body.code,
+      address: req.body.address,
+      cityId: req.body.cityId,
     });
-    SuccesResponse.message = "Successfully create a city";
-    SuccesResponse.data = city;
+    SuccesResponse.message = "Successfully create an airport";
+    SuccesResponse.data = airplane;
 
     return res.status(StatusCodes.CREATED).json(SuccesResponse);
   } catch (error: unknown) {
@@ -36,14 +44,13 @@ export async function createCityController(req: Request, res: Response) {
   }
 }
 
-// city controller for geting data by id
-export async function getCityController(req: Request, res: Response) {
+// airport  controller for getting data by id
+export async function getAirportController(req: Request, res: Response) {
   try {
     const { id } = req.params;
-
-    const city = await getCity(id);
-    SuccesResponse.message = "Successfully got city";
-    SuccesResponse.data = city;
+    const airplane = await getAirport(id);
+    SuccesResponse.message = "Successfully got airport";
+    SuccesResponse.data = airplane;
     return res.status(StatusCodes.OK).json(SuccesResponse);
   } catch (error: unknown) {
     if (error instanceof AppError) {
@@ -57,34 +64,13 @@ export async function getCityController(req: Request, res: Response) {
   }
 }
 
-// city controller forr getting all city data
+// airport controller for getting all data
 
-export async function getAllCitiesController(req: Request, res: Response) {
+export async function getAllAirportController(req: Request, res: Response) {
   try {
-    const cities = await getCities();
-    SuccesResponse.message = "Successfully got all cities";
-    SuccesResponse.data = cities;
-
-    return res.status(StatusCodes.OK).json(SuccesResponse);
-  } catch (error: unknown) {
-    if (error instanceof AppError) {
-      ErrorResponse.error = error;
-      return res.status(error.statusCode).json(ErrorResponse);
-    }
-    if (error instanceof Error) {
-      ErrorResponse.error = error;
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
-    }
-  }
-}
-
-// city controller for updating airplane
-
-export async function updateCityConroller(req: Request, res: Response) {
-  try {
-    const city = await updateCity(req.params.id, req.body);
-    SuccesResponse.message = "Successfully update the city ";
-    SuccesResponse.data = city;
+    const airplane = await getAirports();
+    SuccesResponse.message = "Successfully got all airport";
+    SuccesResponse.data = airplane;
     return res.status(StatusCodes.OK).json(SuccesResponse);
   } catch (error: unknown) {
     if (error instanceof AppError) {
@@ -100,23 +86,42 @@ export async function updateCityConroller(req: Request, res: Response) {
   }
 }
 
-//  city controller for deleting city
-
-export async function deleteCityController(req: Request, res: Response) {
+// airplane controller for updating airpot
+export async function updateAirportController(req: Request, res: Response) {
   try {
-    const { id } = req.params;
-
-    const city = await deleteCity(id);
-    SuccesResponse.message = "Successfully delete the city";
-    SuccesResponse.data = city;
+    const airplane = await updateAirport(req.params.id, req.body);
+    SuccesResponse.message = "Successfully updated the airport";
+    SuccesResponse.data = airplane;
     return res.status(StatusCodes.OK).json(SuccesResponse);
   } catch (error: unknown) {
     if (error instanceof AppError) {
       ErrorResponse.error = error;
+
       return res.status(error.statusCode).json(ErrorResponse);
     }
     if (error instanceof Error) {
       ErrorResponse.error = error;
+
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+    }
+  }
+}
+
+export async function deleteAirportController(req: Request, res: Response) {
+  try {
+    const airplane = await deleteAirport(req.params.id);
+    SuccesResponse.message = "Successfully delete the airport";
+    SuccesResponse.data = airplane;
+    return res.status(StatusCodes.OK).json(SuccesResponse);
+  } catch (error: unknown) {
+    if (error instanceof AppError) {
+      ErrorResponse.error = error;
+
+      return res.status(error.statusCode).json(ErrorResponse);
+    }
+    if (error instanceof Error) {
+      ErrorResponse.error = error;
+
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
     }
   }

@@ -1,10 +1,8 @@
 "use strict";
 
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import type { Iairport } from "../interfaces/model.js";
 import sequelize from "./index.js";
-
-const { Model } = require("sequelize");
 
 class Airport extends Model<Iairport> {
   static associate(models: any) {

@@ -1,20 +1,16 @@
 import { ValidationError } from "sequelize";
-
-import type { IAirplane } from "../interfaces/model.js";
-import { AirplaneRepository } from "../repositories/index.js";
+import type { Iairport } from "../interfaces/model.js";
+import { AirportRepository } from "../repositories/index.js";
+import { handleValidationError } from "../utils/common/handleValidationError.js";
 import AppError from "../utils/error/app-error.js";
 import { StatusCodes } from "http-status-codes";
-import { handleValidationError } from "../utils/common/handleValidationError.js";
 
-const airplaneRepository = new AirplaneRepository();
+const airportRepository = new AirportRepository();
 
-/*
-Creating airplane
-*/
-export async function createAirplane(data: IAirplane) {
+export async function createAirport(data: Iairport) {
   try {
-    const airplane = await airplaneRepository.create(data);
-    return airplane;
+    const airport = await airportRepository.create(data);
+    return airport;
   } catch (error: unknown) {
     if (error instanceof ValidationError) {
       throw handleValidationError(error);
@@ -32,49 +28,47 @@ export async function createAirplane(data: IAirplane) {
 }
 
 /*
-Getting a airplane by id
-*/
+  Getting a airport by id
+  */
 
-export async function getAirplane(id: any) {
+export async function getAirport(id: any) {
   try {
-    const airplane = await airplaneRepository.get(id);
-
-    console.log("airplane services", airplane);
-    if (!airplane) {
+    const airport = await airportRepository.get(id);
+    if (!airport) {
       throw new AppError(
         StatusCodes.NOT_FOUND,
-        `Airplane with id ${id} was not found.`
+        `airport with id ${id} was not found.`
       );
     }
-    return airplane;
+    return airport;
   } catch (error: unknown) {
     if (error instanceof ValidationError) {
       throw handleValidationError(error);
     }
 
     if (error instanceof AppError) {
-      console.log("error ", error);
       throw error;
     }
+
     throw new AppError(
       StatusCodes.INTERNAL_SERVER_ERROR,
-      "Cannot fetch airplane details"
+      "Cannot fetch airport details"
     );
   }
 }
 
 /**
  *
- *Getting all airplane
+ *Getting all airport
  */
 
-export async function getAirplanes() {
+export async function getAirports() {
   try {
-    const airplane = await airplaneRepository.getAll();
-    if (!airplane) {
-      throw new AppError(StatusCodes.NOT_FOUND, "No airplanes were found.");
+    const airports = await airportRepository.getAll();
+    if (!airports) {
+      throw new AppError(StatusCodes.NOT_FOUND, "No airports were found.");
     }
-    return airplane;
+    return airports;
   } catch (error: unknown) {
     if (error instanceof ValidationError) {
       throw handleValidationError(error);
@@ -86,27 +80,27 @@ export async function getAirplanes() {
 
     throw new AppError(
       StatusCodes.INTERNAL_SERVER_ERROR,
-      "Cannot fetch airplanes"
+      "Cannot fetch airports"
     );
   }
 }
 
 /**
  *
- * Updating the airplane details
+ * Updating the airport details
  */
 
-export async function updateAirplane(id: any, data: any) {
+export async function updateAirport(id: any, data: any) {
   try {
     if (!id || !data) {
       throw new AppError(
         StatusCodes.BAD_REQUEST,
-        "Both airplane id and update data are required to update an airplane."
+        "Both airport id and update data are required to update an airport."
       );
     }
-    const airplane = await airplaneRepository.update(id, data);
+    const airport = await airportRepository.update(id, data);
 
-    return airplane;
+    return airport;
   } catch (error: unknown) {
     if (error instanceof ValidationError) {
       throw handleValidationError(error);
@@ -118,27 +112,27 @@ export async function updateAirplane(id: any, data: any) {
 
     throw new AppError(
       StatusCodes.INTERNAL_SERVER_ERROR,
-      "Cannot update airplane"
+      "Cannot update airport"
     );
   }
 }
 
 /**
  *
- * Deleteing the airplane details
+ * Deleteing the airport details
  */
 
-export async function deletingAirplane(id: any) {
+export async function deleteAirport(id: any) {
   try {
     if (!id) {
       throw new AppError(
         StatusCodes.BAD_REQUEST,
-        "Airplane id is required to delete an airplane."
+        "airport id is required to delete an airport."
       );
     }
-    const airplane = await airplaneRepository.delete(id);
+    const airport = await airportRepository.delete(id);
 
-    return airplane;
+    return airport;
   } catch (error: unknown) {
     if (error instanceof ValidationError) {
       throw handleValidationError(error);
@@ -150,7 +144,7 @@ export async function deletingAirplane(id: any) {
 
     throw new AppError(
       StatusCodes.INTERNAL_SERVER_ERROR,
-      "Cannot delete airplane"
+      "Cannot delete airport"
     );
   }
 }

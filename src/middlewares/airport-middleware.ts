@@ -3,17 +3,16 @@ import { StatusCodes } from "http-status-codes";
 import { ErrorResponse } from "../utils/common/index.js";
 import AppError from "../utils/error/app-error.js";
 
-export function airplaneMiddleware(
+export function AirportMiddleware(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  console.log(req.body);
-  if (!req.body.modelNumber && !req.body.capacity) {
-    ErrorResponse.message = "Something went while creating the airplane.";
+  if (!req.body.name && !req.body.code! && req.body.cityId) {
+    ErrorResponse.message = "Something went while creating the airport .";
     ErrorResponse.error = new AppError(
       StatusCodes.BAD_REQUEST,
-      "Model number or Capacity are not found in the incoming request"
+      "Name or Code or CityId are not found in the incoming request"
     );
     return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
   }

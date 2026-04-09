@@ -1,10 +1,5 @@
-import type { IAirplane } from "../interfaces/model.js";
-import { logger } from "../config/index.js";
-
-import { StatusCodes } from "http-status-codes";
 import type { Request, Response } from "express";
-import { ErrorResponse, SuccesResponse } from "../utils/common/index.js";
-import AppError from "../utils/error/app-error.js";
+import { StatusCodes } from "http-status-codes";
 import {
   createAirplane,
   deletingAirplane,
@@ -12,7 +7,10 @@ import {
   getAirplanes,
   updateAirplane,
 } from "../services/index.js";
+import { ErrorResponse, SuccesResponse } from "../utils/common/index.js";
+import AppError from "../utils/error/app-error.js";
 
+// create airport controller
 export async function createAirplaneController(req: Request, res: Response) {
   try {
     const airplane = await createAirplane({
@@ -41,12 +39,14 @@ export async function getAirplaneController(req: Request, res: Response) {
   try {
     const { id } = req.params;
     const airplane = await getAirplane(id);
+
     SuccesResponse.message = "Successfully got airplane";
     SuccesResponse.data = airplane;
     return res.status(StatusCodes.OK).json(SuccesResponse);
   } catch (error: unknown) {
     if (error instanceof AppError) {
-      ErrorResponse.error = error;
+      ErrorResponse.error = error.message;
+
       return res.status(error.statusCode).json(ErrorResponse);
     }
     if (error instanceof Error) {
@@ -66,13 +66,11 @@ export async function getAllAirplaneController(req: Request, res: Response) {
     return res.status(StatusCodes.OK).json(SuccesResponse);
   } catch (error: unknown) {
     if (error instanceof AppError) {
-      ErrorResponse.error = error;
-
+      ErrorResponse.error = error.message;
       return res.status(error.statusCode).json(ErrorResponse);
     }
     if (error instanceof Error) {
       ErrorResponse.error = error;
-
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
     }
   }
@@ -82,7 +80,8 @@ export async function getAllAirplaneController(req: Request, res: Response) {
 export async function updateAirplaneController(req: Request, res: Response) {
   try {
     const airplane = await updateAirplane(req.params.id, req.body);
-    SuccesResponse.message = "Successfully got all airplane";
+    console.log("airplane from controller", airplane);
+    SuccesResponse.message = "Successfully updated the airplane";
     SuccesResponse.data = airplane;
     return res.status(StatusCodes.OK).json(SuccesResponse);
   } catch (error: unknown) {
@@ -101,8 +100,10 @@ export async function updateAirplaneController(req: Request, res: Response) {
 
 export async function deleteAirplanController(req: Request, res: Response) {
   try {
+    console.log("req.params.id ", req.params.id);
     const airplane = await deletingAirplane(req.params.id);
-    SuccesResponse.message = "Successfully got all airplane";
+    console.log("airplane", airplane);
+    SuccesResponse.message = "Successfully delete the airplane";
     SuccesResponse.data = airplane;
     return res.status(StatusCodes.OK).json(SuccesResponse);
   } catch (error: unknown) {

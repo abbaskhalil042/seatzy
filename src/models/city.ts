@@ -22,9 +22,7 @@ City.init(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        unique: true,
-      },
+      unique: true,
     },
   },
   {
