@@ -1,10 +1,9 @@
+import { StatusCodes } from "http-status-codes";
 import { ValidationError } from "sequelize";
 import type { Icity } from "../interfaces/model.js";
 import { CityRepository } from "../repositories/index.js";
-import { logger } from "../config/logger.js";
 import { handleValidationError } from "../utils/common/handleValidationError.js";
 import AppError from "../utils/error/app-error.js";
-import { StatusCodes } from "http-status-codes";
 
 const cityRepository = new CityRepository();
 
@@ -90,7 +89,7 @@ export async function getCities() {
  * Updating the city details
  */
 
-export async function updateCity(id: any, data: any) {
+export async function updateCity(id: any, data: Icity) {
   try {
     if (!id || !data) {
       throw new AppError(

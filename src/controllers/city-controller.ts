@@ -82,7 +82,8 @@ export async function getAllCitiesController(req: Request, res: Response) {
 
 export async function updateCityConroller(req: Request, res: Response) {
   try {
-    const city = await updateCity(req.params.id, req.body);
+    const { id } = req.params;
+    const city = await updateCity(id, req.body);
     SuccesResponse.message = "Successfully update the city ";
     SuccesResponse.data = city;
     return res.status(StatusCodes.OK).json(SuccesResponse);

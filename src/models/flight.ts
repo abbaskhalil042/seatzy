@@ -43,15 +43,16 @@ flight.init(
       type: DataTypes.DATE,
       allowNull: false,
     },
+
     price: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     boardingGate: {
       type: DataTypes.STRING,
     },
     totalSeats: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
