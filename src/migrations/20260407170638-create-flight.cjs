@@ -56,7 +56,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       totalSeats: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       createdAt: {

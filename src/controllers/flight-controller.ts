@@ -5,11 +5,11 @@ import {
   getFlights,
   updateFlight,
   deleteFlight,
-  deleteAirport,
 } from "../services/index.js";
 import AppError from "../utils/error/app-error.js";
 import { ErrorResponse, SuccesResponse } from "../utils/common/index.js";
 import { StatusCodes } from "http-status-codes";
+import { bulkCreate } from "../services/flight-service.js";
 
 // create flight controller
 export async function createFlightController(req: Request, res: Response) {
@@ -55,6 +55,29 @@ export async function createFlightController(req: Request, res: Response) {
   }
 }
 
+export async function bulkCreateController(req: Request, res: Response) {
+  try {
+    const payload = Array.isArray(req.body) ? req.body : [req.body];
+
+    const flight = await bulkCreate(payload);
+
+    SuccesResponse.message = "Successfully created bulk flight";
+    SuccesResponse.data = flight;
+
+    return res.status(StatusCodes.CREATED).json(SuccesResponse);
+  } catch (error: unknown) {
+    if (error instanceof AppError) {
+      ErrorResponse.error = {
+        ...error,
+        explanation: error.message.split(","),
+      };
+      return res.status(error.statusCode).json(ErrorResponse);
+    }
+    if (error instanceof Error) ErrorResponse.error = error;
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+  }
+}
+
 // flight  controller for getting data by id
 export async function getFlightController(req: Request, res: Response) {
   try {
@@ -79,7 +102,7 @@ export async function getFlightController(req: Request, res: Response) {
 
 export async function getAllFlightsController(req: Request, res: Response) {
   try {
-    const flights = await getFlights();
+    const flights = await getFlights(req.query);
     SuccesResponse.message = "Successfully got all flights";
     SuccesResponse.data = flights;
     return res.status(StatusCodes.OK).json(SuccesResponse);
@@ -122,7 +145,7 @@ export async function updateFlightController(req: Request, res: Response) {
 
 export async function deleteFlightController(req: Request, res: Response) {
   try {
-    const flight = await deleteAirport(req.params.id);
+    const flight = await deleteFlight(req.params.id);
     SuccesResponse.message = "Successfully delete the flight";
     SuccesResponse.data = flight;
     return res.status(StatusCodes.OK).json(SuccesResponse);

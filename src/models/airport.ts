@@ -2,7 +2,7 @@
 
 import { DataTypes, Model } from "sequelize";
 import type { Iairport } from "../interfaces/model.js";
-import sequelize from "./index.js";
+import sequelize from "./sequelize.js";
 
 class Airport extends Model<Iairport> {
   static associate(models: any) {
@@ -11,15 +11,20 @@ class Airport extends Model<Iairport> {
     //   Airport.belongsToMany(City);
     this.belongsTo(models.City, {
       foreignKey: "cityId",
+      as: "city",
       onDelete: "CASCADE",
       // onUpdate: "CASCADE",
     });
     this.hasMany(models.Flight, {
       foreignKey: "departureAirportId",
+      as: "departingFlights",
+      sourceKey: "code",
       onDelete: "CASCADE",
     });
     this.hasMany(models.Flight, {
       foreignKey: "arrivalAirportId",
+      as: "arrivingFlights",
+      sourceKey: "code",
       onDelete: "CASCADE",
     });
   }

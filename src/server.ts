@@ -1,7 +1,7 @@
 import express from "express";
 import { serverConfig } from "./config/index.js";
 import apiRoutes from "./routes/index.js";
-
+import "./models/index.js";
 
 console.log(serverConfig);
 

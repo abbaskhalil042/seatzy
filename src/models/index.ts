@@ -1,29 +1,25 @@
-import { Sequelize } from "sequelize";
+import flight from "./flight.js";
+import Airport from "./airport.js";
+import { Airplane } from "./airplane.js";
+import { City } from "./city.js";
+import sequelize from "./sequelize.js";
 
-// We read the config and create the Sequelize connection here.
-//    Every model file imports this `sequelize` instance.
-//    This replaces the old CJS boilerplate that auto-loaded models.
+const models: any = {
+  flight,
+  Flight: flight,
+  Airport,
+  Airplane,
+  City,
+};
 
-const env = process.env.NODE_ENV || "development";
+const uniqueModels = [...new Set(Object.values(models))];
 
-// Using createRequire to load JSON — TypeScript with ESM doesn't support
-//    `import config from "./config.json"` without extra tsconfig flags.
-//    This is the standard workaround.
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const config = require("../config/config.json")[env];
+uniqueModels.forEach((model: any) => {
+  if (model.associate) {
+    model.associate(models);
+  }
+});
 
-let sequelize: Sequelize;
-
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable]!, config);
-} else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  );
-}
-
+export { flight, Airport, Airplane, City };
+export { models };
 export default sequelize;

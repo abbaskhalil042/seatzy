@@ -9,6 +9,14 @@ class AppError extends Error {
     // this.message = message → gone, super() handles it
     Error.captureStackTrace(this, AppError);
   }
+
+  toJSON() {
+    return {
+      name: this.name,
+      statusCode: this.statusCode,
+      explanation: this.message.split(",").map((part) => part.trim()),
+    };
+  }
 }
 
 export default AppError;

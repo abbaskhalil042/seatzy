@@ -1,9 +1,53 @@
 import flight from "../models/flight.js";
 import { CrudRepository } from "./index.js";
+import Airport from "../models/airport.js";
+import { City } from "../models/city.js";
+import { Airplane } from "../models/airplane.js";
 
 class FlightRepository extends CrudRepository {
   constructor() {
     super(flight);
+  }
+
+  async bulkCreateFlight(data: any) {
+    const response = await flight.bulkCreate(data, {
+      validate: true,
+    });
+    return response;
+  }
+
+  async getAllFlights(filter: any, sort: any) {
+    const filtered = await flight.findAll({
+      where: filter,
+      ...(sort.length > 0 ? { order: sort } : {}),
+      include: [
+        { model: Airplane, required: true, as: "airplane" },
+
+        {
+          model: Airport,
+          as: "departureAirport",
+          include: [
+            {
+              model: City,
+              required: true,
+              as: "city",
+            },
+          ],
+        },
+        {
+          model: Airport,
+          as: "arrivalAirport",
+          include: [
+            {
+              model: City,
+              required: true,
+              as: "city",
+            },
+          ],
+        },
+      ],
+    });
+    return filtered;
   }
 }
 

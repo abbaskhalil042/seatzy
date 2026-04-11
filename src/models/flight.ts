@@ -2,18 +2,23 @@
 
 import { DataTypes, Model } from "sequelize";
 import type { Iflights } from "../interfaces/model.js";
-import sequelize from "./index.js";
+import sequelize from "./sequelize.js";
 class flight extends Model<Iflights> {
   static associate(models: any) {
     // define association here
     this.belongsTo(models.Airplane, {
       foreignKey: "airplaneId",
+      as: "airplane",
     });
     this.belongsTo(models.Airport, {
       foreignKey: "departureAirportId",
+      as: "departureAirport",
+      targetKey: "code",
     });
     this.belongsTo(models.Airport, {
-      foreignKey: "arrivalAirportId ",
+      foreignKey: "arrivalAirportId",
+      as: "arrivalAirport",
+      targetKey: "code",
     });
   }
 }
@@ -52,7 +57,8 @@ flight.init(
       type: DataTypes.STRING,
     },
     totalSeats: {
-      type: DataTypes.STRING,
+      //total reamaining  seats
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },

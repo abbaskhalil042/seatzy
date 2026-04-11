@@ -5,7 +5,7 @@ import {
   type InferAttributes,
   type InferCreationAttributes,
 } from "sequelize";
-import sequelize from "./index.js";
+import sequelize from "./sequelize.js";
 import type { Icity } from "../interfaces/model.js";
 
 //  what are these two ?
@@ -14,6 +14,7 @@ class City extends Model<Icity> {
     // define association here
     this.hasMany(models.Airport, {
       foreignKey: "cityId",
+
     });
   }
 }
