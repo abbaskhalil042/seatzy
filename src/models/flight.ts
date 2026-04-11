@@ -3,7 +3,7 @@
 import { DataTypes, Model } from "sequelize";
 import type { Iflights } from "../interfaces/model.js";
 import sequelize from "./sequelize.js";
-class flight extends Model<Iflights> {
+class Flight extends Model<Iflights> {
   static associate(models: any) {
     // define association here
     this.belongsTo(models.Airplane, {
@@ -22,7 +22,7 @@ class flight extends Model<Iflights> {
     });
   }
 }
-flight.init(
+Flight.init(
   {
     flightNumber: {
       type: DataTypes.STRING,
@@ -67,4 +67,4 @@ flight.init(
     modelName: "flight",
   }
 );
-export default flight;
+export default Flight;

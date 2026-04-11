@@ -1,4 +1,4 @@
-import flight from "../models/flight.js";
+import Flight from "../models/flight.js";
 import { CrudRepository } from "./index.js";
 import Airport from "../models/airport.js";
 import { City } from "../models/city.js";
@@ -6,18 +6,18 @@ import { Airplane } from "../models/airplane.js";
 
 class FlightRepository extends CrudRepository {
   constructor() {
-    super(flight);
+    super(Flight);
   }
 
   async bulkCreateFlight(data: any) {
-    const response = await flight.bulkCreate(data, {
+    const response = await Flight.bulkCreate(data, {
       validate: true,
     });
     return response;
   }
 
   async getAllFlights(filter: any, sort: any) {
-    const filtered = await flight.findAll({
+    const filtered = await Flight.findAll({
       where: filter,
       ...(sort.length > 0 ? { order: sort } : {}),
       include: [

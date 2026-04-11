@@ -28,6 +28,9 @@ export interface Iflights {
   totalSeats: number;
 }
 
+export interface Iseats{
+
+}
 
 export interface IcustomFilter {
   departureAirportId?: string;
