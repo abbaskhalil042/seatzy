@@ -37,7 +37,9 @@ export function FlightMiddleware(
     if (missingFields.length > 0) {
       const error = new AppError(
         StatusCodes.BAD_REQUEST,
-        `Missing fields ${missingFields.join(", ")} are required in flight at index ${index}`
+        `Missing fields ${missingFields.join(
+          ", "
+        )} are required in flight at index ${index}`
       );
 
       return res.status(StatusCodes.BAD_REQUEST).json({
@@ -59,5 +61,23 @@ export function FlightMiddleware(
     }
   }
 
+  next();
+}
+
+export function validateUpdateSeatsRequest(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  if (!req.body.seats) {
+    ErrorResponse.message =
+      "Something went while updating the remaining seats.";
+    ErrorResponse.error = new AppError(
+      StatusCodes.BAD_REQUEST,
+      "seats or desc are not found in the incoming request"
+    );
+
+    return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
+  }
   next();
 }

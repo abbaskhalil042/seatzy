@@ -3,7 +3,7 @@ import { Op, ValidationError, cast, col, where } from "sequelize";
 import type { IcustomFilter, Iflights } from "../interfaces/model.js";
 import { FlightRepository } from "../repositories/index.js";
 import { handleValidationError } from "../utils/common/handleValidationError.js";
-import { SuccesResponse } from "../utils/common/index.js";
+import { ErrorResponse, SuccesResponse } from "../utils/common/index.js";
 import AppError from "../utils/error/app-error.js";
 import { getQueryValue } from "../utils/helper/getQeueryValue.js";
 
@@ -237,6 +237,32 @@ export async function deleteFlight(id: any) {
     if (error instanceof AppError) {
       throw error;
     }
+    throw new AppError(
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      "Cannot delete flight"
+    );
+  }
+}
+
+/// increment and descrment
+
+export async function updateRemainingSeats(data: any) {
+  try {
+    const seats = await flightRepository.updateRemainingSeats(
+      data.flighId,
+      data.seats,
+      data.desc
+    );
+    return seats;
+  } catch (error: unknown) {
+    if (error instanceof ValidationError) {
+      throw handleValidationError(error);
+    }
+
+    if (error instanceof AppError) {
+      throw error;
+    }
+
     throw new AppError(
       StatusCodes.INTERNAL_SERVER_ERROR,
       "Cannot delete flight"

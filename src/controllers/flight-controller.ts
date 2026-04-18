@@ -5,6 +5,7 @@ import {
   getFlights,
   updateFlight,
   deleteFlight,
+  updateRemainingSeats,
 } from "../services/index.js";
 import AppError from "../utils/error/app-error.js";
 import { ErrorResponse, SuccesResponse } from "../utils/common/index.js";
@@ -158,6 +159,38 @@ export async function deleteFlightController(req: Request, res: Response) {
     if (error instanceof Error) {
       ErrorResponse.error = error;
 
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+    }
+  }
+}
+
+// updating remaining seats
+
+export async function updateRemainingSeatsController(
+  req: Request,
+  res: Response
+) {
+  try {
+    console.log("params:", req.params);
+    // console.log("flightId:", req.params.flightId);
+    const flighId = req.params.flightId;
+    const { seats, desc } = req.body;
+
+    
+
+    const seat = await updateRemainingSeats({ flighId: flighId, seats, desc });
+
+    SuccesResponse.message = "Successfully upated the seat";
+    SuccesResponse.data = seat || {};
+    return res.status(StatusCodes.OK).json(SuccesResponse);
+  } catch (error: unknown) {
+    if (error instanceof AppError) {
+      ErrorResponse.error = error;
+      return res.status(error.statusCode).json(ErrorResponse);
+    }
+
+    if (error instanceof Error) {
+      ErrorResponse.error = error;
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
     }
   }

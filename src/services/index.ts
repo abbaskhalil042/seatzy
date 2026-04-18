@@ -28,6 +28,7 @@ import {
   getFlight,
   getFlights,
   updateFlight,
+  updateRemainingSeats,
 } from "./flight-service.js";
 
 export {
@@ -56,4 +57,6 @@ export {
   getFlights,
   updateFlight,
   deleteFlight,
+  updateRemainingSeats
+
 };
